@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>金沙魚特產 ・ 團購訂單</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;700;900&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#2E2A25;
+    --paper:#FBF5E9;
+    --paper-line:#E6DCC6;
+    --navy:#16323F;
+    --navy-2:#1F4655;
+    --amber:#C97D3C;
+    --amber-deep:#A8622A;
+    --stamp:#A13328;
+    --card:#FFFFFF;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Noto Sans TC', sans-serif;
+    padding-bottom:96px;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .header{
+    background:linear-gradient(160deg, var(--navy) 0%, var(--navy-2) 100%);
+    color:#F3EFE3;
+    padding:32px 20px 40px;
+    position:relative;
+    overflow:hidden;
+  }
+  .header::after{
+    content:"";
+    position:absolute;
+    left:0; right:0; bottom:0;
+    height:14px;
+    background:repeating-linear-gradient(90deg, var(--paper) 0 10px, transparent 10px 20px);
+  }
+  .eyebrow{
+    font-size:12px;
+    letter-spacing:0.25em;
+    color:#B9CBD1;
+    margin:0 0 6px;
+    font-weight:500;
+  }
+  h1{
+    font-family:'Noto Serif TC', serif;
+    font-weight:900;
+    font-size:28px;
+    margin:0 0 4px;
+    letter-spacing:0.04em;
+  }
+  .sub{
+    font-size:13px;
+    color:#CBD8DB;
+    line-height:1.7;
+    margin-top:10px;
+  }
+  .contact-row{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:14px;
+  }
+  .pill{
+    background:rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.18);
+    color:#EFEAD9;
+    font-size:12.5px;
+    padding:6px 12px;
+    border-radius:999px;
+  }
+  .wrap{ max-width:720px; margin:0 auto; padding:0 16px; }
+  .section-title{
+    font-family:'Noto Serif TC', serif;
+    font-weight:700;
+    font-size:17px;
+    color:var(--amber-deep);
+    margin:28px 4px 12px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .section-title .badge{
+    width:22px;height:22px;border-radius:50%;
+    background:var(--amber);
+    color:#fff;
+    font-size:12px;
+    display:flex;align-items:center;justify-content:center;
+    font-weight:700;
+  }
+  .section-title .rule{
+    flex:1;
+    height:1px;
+    background:repeating-linear-gradient(90deg, var(--paper-line) 0 6px, transparent 6px 11px);
+  }
+  .item{
+    background:var(--card);
+    border:1px solid var(--paper-line);
+    border-radius:14px;
+    padding:14px;
+    margin-bottom:10px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .item.active{
+    border-color:var(--amber);
+    box-shadow:0 0 0 2px rgba(201,125,60,0.12);
+  }
+  .num{
+    font-family:'Noto Serif TC', serif;
+    font-weight:700;
+    font-size:13px;
+    color:#A79A7E;
+    width:26px;
+    flex-shrink:0;
+    text-align:center;
+  }
+  .item-main{ flex:1; min-width:0; }
+  .item-name{ font-size:15px; font-weight:500; margin-bottom:3px; }
+  .item-price{ font-size:13px; color:var(--stamp); font-weight:700; }
+  .item-price span{ color:#9A9078; font-weight:400; margin-left:2px; }
+  .qty{
+    display:flex; align-items:center;
+    border:1px solid var(--paper-line);
+    border-radius:999px;
+    overflow:hidden;
+    flex-shrink:0;
+  }
+  .qty button{
+    width:32px;height:32px;
+    border:none;
+    background:#F4EEDF;
+    color:var(--navy);
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+  }
+  .qty button:active{ background:var(--amber); color:#fff; }
+  .qty input{
+    width:34px;
+    border:none;
+    text-align:center;
+    font-size:14px;
+    font-weight:700;
+    color:var(--ink);
+  }
+  .buyer-card{
+    background:var(--card);
+    border:1px solid var(--paper-line);
+    border-radius:16px;
+    padding:20px;
+    margin-top:8px;
+  }
+  .field{ margin-bottom:14px; }
+  .field label{
+    display:block;
+    font-size:13px;
+    font-weight:700;
+    color:var(--navy);
+    margin-bottom:6px;
+  }
+  .field input, .field textarea{
+    width:100%;
+    padding:10px 12px;
+    border:1px solid var(--paper-line);
+    border-radius:10px;
+    font-size:14px;
+    font-family:'Noto Sans TC',sans-serif;
+    background:#FFFDF9;
+    color:var(--ink);
+  }
+  .field textarea{ resize:vertical; min-height:60px; }
+  .radio-row{ display:flex; gap:10px; }
+  .radio-opt{
+    flex:1;
+    border:1px solid var(--paper-line);
+    border-radius:10px;
+    padding:10px;
+    text-align:center;
+    font-size:13.5px;
+    font-weight:700;
+    color:#8A8065;
+    cursor:pointer;
+    background:#FFFDF9;
+  }
+  .radio-opt.sel{
+    border-color:var(--amber);
+    color:var(--amber-deep);
+    background:#FBEEDD;
+  }
+  .summary-box{
+    background:var(--card);
+    border:1px dashed var(--paper-line);
+    border-radius:16px;
+    padding:18px 20px;
+    margin-top:20px;
+  }
+  .summary-title{
+    font-family:'Noto Serif TC',serif;
+    font-weight:700;
+    font-size:15px;
+    color:var(--navy);
+    margin-bottom:10px;
+  }
+  .summary-line{
+    display:flex;
+    justify-content:space-between;
+    font-size:13.5px;
+    padding:5px 0;
+    border-bottom:1px dotted var(--paper-line);
+  }
+  .summary-line:last-child{ border-bottom:none; }
+  .summary-total{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-top:12px;
+    padding-top:12px;
+    border-top:1px solid var(--paper-line);
+  }
+  .summary-total .label{ font-size:14px; font-weight:700; color:var(--navy); }
+  .summary-total .amount{
+    font-family:'Noto Serif TC',serif;
+    font-size:26px;
+    font-weight:900;
+    color:var(--stamp);
+  }
+  .empty-note{ font-size:13px; color:#9A9078; text-align:center; padding:14px 0; }
+  #summaryText{
+    width:100%;
+    margin-top:14px;
+    font-size:13px;
+    padding:12px;
+    border-radius:10px;
+    border:1px solid var(--paper-line);
+    background:#FAF7EE;
+    color:#5A5240;
+    line-height:1.7;
+    min-height:120px;
+    font-family:'Noto Sans TC',sans-serif;
+  }
+  .copy-btn{
+    margin-top:10px;
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:var(--navy);
+    color:#F3EFE3;
+    font-size:14px;
+    font-weight:700;
+    cursor:pointer;
+    letter-spacing:0.03em;
+  }
+  .copy-btn:active{ background:var(--navy-2); }
+  .copy-hint{ font-size:12px; color:#9A9078; text-align:center; margin-top:8px; }
+  .sticky-bar{
+    position:fixed;
+    left:0; right:0; bottom:0;
+    background:var(--navy);
+    color:#fff;
+    padding:12px 18px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    box-shadow:0 -4px 16px rgba(0,0,0,0.15);
+    z-index:10;
+  }
+  .sticky-bar .count{ font-size:12.5px; color:#B9CBD1; }
+  .sticky-bar .total{ font-family:'Noto Serif TC',serif; font-size:20px; font-weight:900; }
+  .sticky-bar button{
+    background:var(--amber);
+    color:#fff;
+    border:none;
+    padding:10px 20px;
+    border-radius:999px;
+    font-size:14px;
+    font-weight:700;
+    cursor:pointer;
+  }
+  .footer-note{
+    text-align:center;
+    color:#A79A7E;
+    font-size:12px;
+    margin:28px 0 8px;
+    line-height:1.8;
+  }
+</style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="wrap">
+      <p class="eyebrow">馬祖南竿・津沙村漁港直送</p>
+      <h1>金沙魚特產 團購訂單</h1>
+      <p class="sub">馬祖南竿鄉津沙村64號 ・ 全品項共 35 款漁產乾貨,勾選數量後自動計算金額</p>
+      <div class="contact-row">
+        <span class="pill">📞 葉桂萍 0919-280-564</span>
+        <span class="pill">📞 黃燕賽 0911-660-914</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <div class="section-title"><span class="badge">1</span>常溫小包裝(120元/包 系列)<span class="rule"></span></div>
+    <div id="group1"></div>
+
+    <div class="section-title"><span class="badge">2</span>大包裝規格(350元/包 系列)<span class="rule"></span></div>
+    <div id="group2"></div>
+
+    <div class="section-title"><span class="badge">3</span>其他人氣品項<span class="rule"></span></div>
+    <div id="group3"></div>
+
+    <div class="section-title"><span class="badge">4</span>訂購人資訊<span class="rule"></span></div>
+    <div class="buyer-card">
+      <div class="field">
+        <label>姓名 / LINE 暱稱</label>
+        <input type="text" id="buyerName" placeholder="請輸入姓名">
+      </div>
+      <div class="field">
+        <label>聯絡電話</label>
+        <input type="tel" id="buyerPhone" placeholder="請輸入手機號碼">
+      </div>
+      <div class="field">
+        <label>取貨方式</label>
+        <div class="radio-row">
+          <div class="radio-opt sel" id="opt-pickup">自取</div>
+          <div class="radio-opt" id="opt-ship">宅配寄送</div>
+        </div>
+      </div>
+      <div class="field" id="addressField" style="display:none;">
+        <label>宅配地址</label>
+        <input type="text" id="buyerAddress" placeholder="請輸入完整地址">
+      </div>
+      <div class="field">
+        <label>備註(付款方式、送達時間等)</label>
+        <textarea id="buyerNote" placeholder="選填"></textarea>
+      </div>
+    </div>
+
+    <div class="summary-box">
+      <div class="summary-title">📋 訂單明細</div>
+      <div id="summaryLines"><p class="empty-note">尚未選購任何品項</p></div>
+      <div class="summary-total">
+        <span class="label">合計金額</span>
+        <span class="amount" id="grandTotal">NT$ 0</span>
+      </div>
+      <textarea id="summaryText" readonly></textarea>
+      <button class="copy-btn" id="copyBtn">📋 複製訂單內容,傳送給賣家 LINE</button>
+      <p class="copy-hint">複製後請貼到 LINE 傳送給葉桂萍 0919-280-564 或 黃燕賽 0911-660-914 完成下單</p>
+    </div>
+
+    <p class="footer-note">金沙魚特產 ・ 馬祖南竿鄉津沙村64號<br>本表單僅供整理訂購內容,實際成交以賣家確認為準</p>
+  </div>
+
+  <div class="sticky-bar">
+    <div>
+      <div class="count" id="stickyCount">尚未選購</div>
+      <div class="total" id="stickyTotal">NT$ 0</div>
+    </div>
+    <button id="jumpBtn">查看訂單 ↓</button>
+  </div>
+
+<script>
+const items = [
+  {id:1,name:"馬祖墨魚條",unit:"包",price:120,g:1},
+  {id:2,name:"原味金絲魚",unit:"包",price:120,g:1},
+  {id:3,name:"麻辣白巾魚",unit:"包",price:120,g:1},
+  {id:4,name:"馬祖小黃魚",unit:"包",price:120,g:1},
+  {id:5,name:"麻辣帶魚酥",unit:"包",price:120,g:1},
+  {id:6,name:"馬祖帶魚酥",unit:"包",price:120,g:1},
+  {id:7,name:"岩燒章魚花",unit:"包",price:120,g:1},
+  {id:8,name:"野蔥白巾魚",unit:"包",price:120,g:1},
+  {id:9,name:"杏仁小魚乾",unit:"包",price:120,g:1},
+  {id:10,name:"炭燒那個魚",unit:"包",price:120,g:1},
+  {id:11,name:"麻辣那個魚",unit:"包",price:120,g:1},
+  {id:12,name:"馬祖烤香鰻",unit:"包",price:120,g:1},
+  {id:13,name:"野生石斑魚",unit:"包",price:120,g:1},
+  {id:14,name:"馬祖比目魚",unit:"包",price:120,g:1},
+  {id:15,name:"炭燒章魚足",unit:"包",price:120,g:1},
+  {id:16,name:"黃金櫻花蝦",unit:"包",price:120,g:1},
+  {id:17,name:"炭燒飛卷片",unit:"包",price:120,g:1},
+  {id:18,name:"野生紫菜",unit:"包",price:120,g:1},
+  {id:19,name:"馬祖昆布",unit:"包",price:150,g:1},
+  {id:20,name:"手工魚麵",unit:"包",price:120,g:1},
+  {id:21,name:"麻辣白巾魚(大包)",unit:"包",price:350,g:2},
+  {id:22,name:"野蔥白巾魚(大包)",unit:"包",price:350,g:2},
+  {id:23,name:"馬祖章魚足(大包)",unit:"包",price:350,g:2},
+  {id:24,name:"野生石斑魚(大包)",unit:"包",price:350,g:2},
+  {id:25,name:"馬祖墨魚條(大包)",unit:"包",price:350,g:2},
+  {id:26,name:"馬祖帶魚酥(大包)",unit:"包",price:350,g:2},
+  {id:27,name:"馬祖小黃魚(大包)",unit:"包",price:350,g:2},
+  {id:28,name:"馬祖比目魚(大包)",unit:"包",price:350,g:2},
+  {id:29,name:"馬祖裙帶菜",unit:"包",price:120,g:3},
+  {id:30,name:"煙燻鮭魚燒",unit:"包",price:120,g:3},
+  {id:31,name:"麻辣鱈魚燒",unit:"包",price:120,g:3},
+  {id:32,name:"紅麴花生",unit:"包",price:100,g:3},
+  {id:33,name:"馬祖手工麵線",unit:"包",price:100,g:3},
+  {id:34,name:"老酒麵線",unit:"包",price:180,g:3},
+  {id:35,name:"頂級陳年酒糟",unit:"罐",price:180,g:3},
+];
+
+const qtyState = {};
+items.forEach(it => qtyState[it.id] = 0);
+
+function renderItems(){
+  [1,2,3].forEach(g => {
+    const container = document.getElementById('group'+g);
+    container.innerHTML = '';
+    items.filter(it => it.g === g).forEach(it => {
+      const row = document.createElement('div');
+      row.className = 'item';
+      row.id = 'item-'+it.id;
+      row.innerHTML = `
+        <div class="num">${it.id}</div>
+        <div class="item-main">
+          <div class="item-name">${it.name}</div>
+          <div class="item-price">NT$ ${it.price}<span>/${it.unit}</span></div>
+        </div>
+        <div class="qty">
+          <button type="button" data-id="${it.id}" data-d="-1">－</button>
+          <input type="text" inputmode="numeric" id="qty-${it.id}" value="0" readonly>
+          <button type="button" data-id="${it.id}" data-d="1">＋</button>
+        </div>
+      `;
+      container.appendChild(row);
+    });
+  });
+  document.querySelectorAll('.qty button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      changeQty(parseInt(btn.dataset.id), parseInt(btn.dataset.d));
+    });
+  });
+}
+
+function changeQty(id, delta){
+  qtyState[id] = Math.max(0, qtyState[id] + delta);
+  document.getElementById('qty-'+id).value = qtyState[id];
+  document.getElementById('item-'+id).classList.toggle('active', qtyState[id] > 0);
+  updateSummary();
+}
+
+function updateSummary(){
+  const lines = document.getElementById('summaryLines');
+  const selected = items.filter(it => qtyState[it.id] > 0);
+  let total = 0;
+  let count = 0;
+
+  if(selected.length === 0){
+    lines.innerHTML = '<p class="empty-note">尚未選購任何品項</p>';
+  } else {
+    lines.innerHTML = selected.map(it => {
+      const sub = it.price * qtyState[it.id];
+      total += sub;
+      count += qtyState[it.id];
+      return `<div class="summary-line"><span>${it.id}. ${it.name} × ${qtyState[it.id]}</span><span>NT$ ${sub}</span></div>`;
+    }).join('');
+  }
+
+  document.getElementById('grandTotal').textContent = 'NT$ ' + total;
+  document.getElementById('stickyTotal').textContent = 'NT$ ' + total;
+  document.getElementById('stickyCount').textContent = count > 0 ? `共 ${count} 件品項` : '尚未選購';
+
+  const name = document.getElementById('buyerName').value || '(未填寫)';
+  const phone = document.getElementById('buyerPhone').value || '(未填寫)';
+  const pickup = document.getElementById('opt-pickup').classList.contains('sel') ? '自取' : '宅配寄送';
+  const address = document.getElementById('buyerAddress').value;
+  const note = document.getElementById('buyerNote').value;
+
+  let text = `【金沙魚特產 團購訂單】\n訂購人：${name}\n電話：${phone}\n取貨方式：${pickup}`;
+  if(pickup === '宅配寄送') text += `\n地址：${address || '(未填寫)'}`;
+  text += `\n--------------------\n`;
+  if(selected.length === 0){
+    text += '(尚未選購品項)';
+  } else {
+    selected.forEach(it => {
+      text += `${it.id}. ${it.name} × ${qtyState[it.id]}（NT$ ${it.price * qtyState[it.id]}）\n`;
+    });
+  }
+  text += `--------------------\n合計：NT$ ${total}`;
+  if(note) text += `\n備註：${note}`;
+
+  document.getElementById('summaryText').value = text;
+}
+
+document.getElementById('opt-pickup').addEventListener('click', () => {
+  document.getElementById('opt-pickup').classList.add('sel');
+  document.getElementById('opt-ship').classList.remove('sel');
+  document.getElementById('addressField').style.display = 'none';
+  updateSummary();
+});
+document.getElementById('opt-ship').addEventListener('click', () => {
+  document.getElementById('opt-ship').classList.add('sel');
+  document.getElementById('opt-pickup').classList.remove('sel');
+  document.getElementById('addressField').style.display = 'block';
+  updateSummary();
+});
+
+['buyerName','buyerPhone','buyerAddress','buyerNote'].forEach(id => {
+  document.getElementById(id).addEventListener('input', updateSummary);
+});
+
+document.getElementById('jumpBtn').addEventListener('click', () => {
+  document.querySelector('.summary-box').scrollIntoView({behavior:'smooth', block:'start'});
+});
+
+document.getElementById('copyBtn').addEventListener('click', () => {
+  const ta = document.getElementById('summaryText');
+  ta.select();
+  ta.setSelectionRange(0, 99999);
+  try{
+    navigator.clipboard.writeText(ta.value);
+    const btn = document.getElementById('copyBtn');
+    const original = btn.textContent;
+    btn.textContent = '✅ 已複製,請貼到 LINE 傳送';
+    setTimeout(() => btn.textContent = original, 2200);
+  }catch(e){
+    document.execCommand('copy');
+  }
+});
+
+renderItems();
+updateSummary();
+</script>
+
+</body>
+</html>
